@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>F1 Tyre Degradation Optimizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<link rel="stylesheet" href="static/css/style.css"/>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo-badge">F1</div>
+  <div class="header-title">Tyre Degradation Optimizer</div>
+  <div class="header-sub">STRATEGY · SIMULATION · AI ANALYSIS</div>
+</header>
+
+<div class="app">
+  <aside class="sidebar">
+
+    <div class="card">
+      <div class="card-title">Circuit</div>
+      <label class="field">
+        <span>Select Grand Prix</span>
+        <select id="sel-circuit">
+          <option value="monaco">Monaco — Monte Carlo</option>
+          <option value="silverstone">British GP — Silverstone</option>
+          <option value="monza">Italian GP — Monza</option>
+          <option value="spa">Belgian GP — Spa-Francorchamps</option>
+          <option value="suzuka">Japanese GP — Suzuka</option>
+          <option value="bahrain" selected>Bahrain GP — Sakhir</option>
+          <option value="singapore">Singapore GP — Marina Bay</option>
+          <option value="mexico">Mexico City GP — Autodromo</option>
+          <option value="cota">US GP — COTA</option>
+          <option value="abu_dhabi">Abu Dhabi GP — Yas Marina</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Race Conditions</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <label class="field">
+          <span>Track Temperature (°C)</span>
+          <div class="range-row">
+            <input type="range" id="sl-track-temp" min="15" max="60" value="38" step="1"/>
+            <span class="range-val" id="out-track-temp">38</span>
+          </div>
+        </label>
+        <label class="field">
+          <span>Air Temperature (°C)</span>
+          <div class="range-row">
+            <input type="range" id="sl-air-temp" min="10" max="45" value="26" step="1"/>
+            <span class="range-val" id="out-air-temp">26</span>
+          </div>
+        </label>
+        <label class="field">
+          <span>Humidity (%)</span>
+          <div class="range-row">
+            <input type="range" id="sl-humidity" min="10" max="95" value="40" step="1"/>
+            <span class="range-val" id="out-humidity">40</span>
+          </div>
+        </label>
+        <label class="field">
+          <span>Weather</span>
+          <select id="sel-weather">
+            <option value="dry">Dry</option>
+            <option value="damp">Damp</option>
+            <option value="wet">Wet</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Starting Compound</div>
+      <div class="tyre-grid">
+        <button class="tyre-btn active-soft" data-t="S" onclick="selectTyre(this,'S')">
+          <div class="tyre-circle"></div>SOFT
+        </button>
+        <button class="tyre-btn" data-t="M" onclick="selectTyre(this,'M')">
+          <div class="tyre-circle" style="border-color:var(--tire-medium)"></div>MEDIUM
+        </button>
+        <button class="tyre-btn" data-t="H" onclick="selectTyre(this,'H')">
+          <div class="tyre-circle" style="border-color:#ccc"></div>HARD
+        </button>
+        <button class="tyre-btn" data-t="I" onclick="selectTyre(this,'I')">
+          <div class="tyre-circle" style="border-color:var(--tire-inter)"></div>INTER
+        </button>
+        <button class="tyre-btn" data-t="W" onclick="selectTyre(this,'W')">
+          <div class="tyre-circle" style="border-color:var(--tire-wet)"></div>WET
+        </button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Car & Driver</div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <label class="field">
+          <span>Fuel Load (kg)</span>
+          <div class="range-row">
+            <input type="range" id="sl-fuel" min="50" max="110" value="90" step="1"/>
+            <span class="range-val" id="out-fuel">90</span>
+          </div>
+        </label>
+        <label class="field">
+          <span>Tyre Pressure (psi)</span>
+          <div class="range-row">
+            <input type="range" id="sl-pressure" min="21" max="28" value="24" step="0.5"/>
+            <span class="range-val" id="out-pressure">24</span>
+          </div>
+        </label>
+        <label class="field">
+          <span>Driving Style</span>
+          <select id="sel-style">
+            <option value="conservative">Conservative</option>
+            <option value="balanced" selected>Balanced</option>
+            <option value="aggressive">Aggressive</option>
+            <option value="push">Max Attack</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Race Laps</span>
+          <input type="number" id="inp-laps" min="30" max="78" value="57"/>
+        </label>
+      </div>
+    </div>
+
+    <button class="btn-analyze" id="btn-run" onclick="runAnalysis()">▶ ANALYZE STRATEGY</button>
+
+  </aside>
+
+  <main class="main" id="main-content">
+    <div id="empty-state" style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:16px;padding:40px;text-align:center;">
+      <div style="font-size:64px;opacity:0.1;filter:grayscale(1)">⬤</div>
+      <div style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:600;color:var(--muted);">Configure Parameters & Run Analysis</div>
+      <div style="color:var(--muted);max-width:380px;line-height:1.7;">Set circuit, conditions, and tyre compound on the left, then hit <strong style="color:var(--red)">Analyze Strategy</strong> to generate degradation curves, pit stop windows, and AI recommendations.</div>
+    </div>
+
+    <div id="results" style="display:none;flex-direction:column;gap:18px;">
+
+      <div class="card" id="circuit-header-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <div>
+            <div class="circuit-header">
+              <span class="circuit-name" id="r-circuit-name">–</span>
+              <span class="circuit-country" id="r-circuit-country">–</span>
+            </div>
+            <div style="font-size:12px;color:var(--muted);font-family:'IBM Plex Mono',monospace" id="r-circuit-meta">–</div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap" id="r-conditions-tags"></div>
+        </div>
+      </div>
+
+      <div class="metrics-row" id="metrics-row"></div>
+
+      <div>
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('degradation',this)">Degradation Curve</button>
+          <button class="tab" onclick="showTab('pace',this)">Lap Pace</button>
+          <button class="tab" onclick="showTab('strategy',this)">Pit Strategy</button>
+          <button class="tab" onclick="showTab('wear',this)">Wear Analysis</button>
+        </div>
+        <div id="tab-degradation" class="tab-pane">
+          <div class="card">
+            <div class="card-title">Tyre Degradation — All Compounds</div>
+            <div class="chart-wrap" style="height:260px"><canvas id="chart-deg"></canvas></div>
+          </div>
+        </div>
+        <div id="tab-pace" class="tab-pane" style="display:none">
+          <div class="card">
+            <div class="card-title">Expected Lap Time Delta (vs fresh tyre)</div>
+            <div class="chart-wrap" style="height:260px"><canvas id="chart-pace"></canvas></div>
+          </div>
+        </div>
+        <div id="tab-strategy" class="tab-pane" style="display:none">
+          <div class="card">
+            <div class="card-title">Optimal Pit Stop Strategies — Ranked by Total Race Time</div>
+            <div style="overflow-x:auto">
+              <table class="strat-table" id="strat-table"></table>
+            </div>
+          </div>
+        </div>
+        <div id="tab-wear" class="tab-pane" style="display:none">
+          <div class="card">
+            <div class="card-title">Tyre Wear Simulation by Lap</div>
+            <div style="margin-bottom:14px">
+              <label class="field">
+                <span>Simulate at Lap</span>
+                <div class="range-row">
+                  <input type="range" id="sl-sim-lap" min="1" max="78" value="1" step="1" oninput="updateWear(this.value)"/>
+                  <span class="range-val" id="out-sim-lap">1</span>
+                </div>
+              </label>
+            </div>
+            <div id="wear-bars"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-box" id="ai-box">
+        <div class="ai-badge">AI STRATEGY ENGINE · CLAUDE</div>
+        <div class="ai-text" id="ai-text"><span class="loading-dots">Generating race strategy analysis</span></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script src="static/js/data.js"></script>
+<script src="static/js/model.js"></script>
+<script src="static/js/charts.js"></script>
+<script src="static/js/ui.js"></script>
+<script src="static/js/app.js"></script>
+</body>
+</html>
