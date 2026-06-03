@@ -8,9 +8,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-/* ═══════════════════════════════════════════════════
-   DESIGN TOKENS — change colours here to retheme app
-   ═══════════════════════════════════════════════════ */
 :root {
   --red:        #E8002D;
   --red-dark:   #a0001e;
@@ -33,10 +30,6 @@
   --tire-W:     #0070c0;
   --radius:     10px;
 }
-
-/* ═══════════════════════════════════════════════════
-   RESET & BASE
-   ═══════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
@@ -47,10 +40,6 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
 }
-
-/* ═══════════════════════════════════════════════════
-   HEADER / NAV BAR
-   ═══════════════════════════════════════════════════ */
 .header {
   background: var(--panel);
   border-bottom: 2px solid var(--red);
@@ -95,14 +84,7 @@ body {
 }
 .header-dot.live { background: var(--green); box-shadow: 0 0 6px var(--green); animation: pulse 2s infinite; }
 @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
-
-/* ═══════════════════════════════════════════════════
-   APP LAYOUT — sidebar + main
-   ═══════════════════════════════════════════════════ */
-.app {
-  display: flex;
-  height: calc(100vh - 56px);
-}
+.app { display: flex; height: calc(100vh - 56px); }
 .sidebar {
   width: 300px;
   min-width: 280px;
@@ -122,10 +104,6 @@ body {
   flex-direction: column;
   gap: 18px;
 }
-
-/* ═══════════════════════════════════════════════════
-   CARDS — reusable container
-   ═══════════════════════════════════════════════════ */
 .card {
   background: var(--panel2);
   border: 1px solid var(--border);
@@ -151,10 +129,6 @@ body {
   border-radius: 2px;
   flex-shrink: 0;
 }
-
-/* ═══════════════════════════════════════════════════
-   FORM INPUTS
-   ═══════════════════════════════════════════════════ */
 label.field {
   display: flex;
   flex-direction: column;
@@ -202,10 +176,6 @@ select option { background: #1a1e28; }
   min-width: 38px;
   text-align: right;
 }
-
-/* ═══════════════════════════════════════════════════
-   TYRE COMPOUND SELECTOR
-   ═══════════════════════════════════════════════════ */
 .tyre-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .tyre-btn {
   border: 2px solid var(--border2);
@@ -236,10 +206,6 @@ select option { background: #1a1e28; }
 .tyre-btn.sel-H { border-color:#bbb;          background:rgba(240,240,240,.07); color:#e0e0e0; }
 .tyre-btn.sel-I { border-color:var(--tire-I); background:rgba(0,176,80,.10); color:var(--tire-I); }
 .tyre-btn.sel-W { border-color:var(--tire-W); background:rgba(0,112,192,.12); color:var(--tire-W); }
-
-/* ═══════════════════════════════════════════════════
-   ANALYZE BUTTON
-   ═══════════════════════════════════════════════════ */
 .btn-analyze {
   background: var(--red);
   color: #fff;
@@ -258,10 +224,6 @@ select option { background: #1a1e28; }
 .btn-analyze:hover { background: var(--red-dark); }
 .btn-analyze:active { transform: scale(.98); }
 .btn-analyze:disabled { background: #444; cursor: not-allowed; }
-
-/* ═══════════════════════════════════════════════════
-   METRICS ROW — 4 KPI tiles
-   ═══════════════════════════════════════════════════ */
 .metrics-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
 .metric {
   background: var(--panel2);
@@ -285,10 +247,6 @@ select option { background: #1a1e28; }
   line-height: 1;
 }
 .metric-unit { font-size: 11px; color: var(--muted); margin-top: 4px; }
-
-/* ═══════════════════════════════════════════════════
-   TABS
-   ═══════════════════════════════════════════════════ */
 .tabs { display: flex; gap: 4px; margin-bottom: 14px; flex-wrap: wrap; }
 .tab {
   background: transparent;
@@ -306,10 +264,6 @@ select option { background: #1a1e28; }
 }
 .tab.active  { background: var(--red); border-color: var(--red); color: #fff; }
 .tab:hover:not(.active) { border-color: var(--border2); color: var(--soft-text); }
-
-/* ═══════════════════════════════════════════════════
-   STRATEGY TABLE
-   ═══════════════════════════════════════════════════ */
 .strat-table { width:100%; border-collapse:collapse; font-size:13px; }
 .strat-table th {
   text-align: left;
@@ -352,19 +306,11 @@ select option { background: #1a1e28; }
   font-weight: 700;
   letter-spacing: 1px;
 }
-
-/* ═══════════════════════════════════════════════════
-   WEAR BARS
-   ═══════════════════════════════════════════════════ */
 .wear-bar-wrap { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
 .wear-label    { font-family:'IBM Plex Mono',monospace; font-size:12px; color:var(--muted); min-width:70px; }
 .wear-bar-bg   { flex:1; height:8px; background:#1a1e28; border-radius:4px; overflow:hidden; }
 .wear-bar-fill { height:100%; border-radius:4px; transition:width .4s ease; }
 .wear-pct      { font-family:'IBM Plex Mono',monospace; font-size:12px; min-width:38px; text-align:right; }
-
-/* ═══════════════════════════════════════════════════
-   CONDITION TAGS (header row)
-   ═══════════════════════════════════════════════════ */
 .cond-tag {
   border-radius: 4px;
   padding: 3px 10px;
@@ -373,10 +319,6 @@ select option { background: #1a1e28; }
   font-weight: 600;
   letter-spacing: 1px;
 }
-
-/* ═══════════════════════════════════════════════════
-   AI STRATEGY BOX
-   ═══════════════════════════════════════════════════ */
 .ai-box {
   background: #0e1220;
   border: 1px solid rgba(41,121,255,.25);
@@ -397,19 +339,11 @@ select option { background: #1a1e28; }
 }
 .ai-text { font-size:13.5px; line-height:1.8; color:var(--soft-text); }
 .ai-text strong { color: var(--text); font-weight: 500; }
-
-/* ═══════════════════════════════════════════════════
-   LOADING DOTS ANIMATION
-   ═══════════════════════════════════════════════════ */
 .ldots::after {
   content:'';
   animation: ld 1.2s steps(4,end) infinite;
 }
 @keyframes ld { 0%,100%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'} }
-
-/* ═══════════════════════════════════════════════════
-   EMPTY STATE
-   ═══════════════════════════════════════════════════ */
 .empty-state {
   display: flex;
   flex-direction: column;
@@ -423,24 +357,12 @@ select option { background: #1a1e28; }
 .empty-icon { font-size: 64px; opacity: .1; }
 .empty-title { font-family:'Rajdhani',sans-serif; font-size:22px; font-weight:600; color:var(--muted); }
 .empty-body  { color:var(--muted); max-width:360px; line-height:1.7; }
-
-/* ═══════════════════════════════════════════════════
-   CUSTOM LEGEND for charts
-   ═══════════════════════════════════════════════════ */
 .chart-legend { display:flex; flex-wrap:wrap; gap:14px; margin-top:12px; }
 .legend-item  { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--muted); font-family:'IBM Plex Mono',monospace; }
 .legend-line  { width:20px; height:3px; border-radius:2px; }
-
-/* ═══════════════════════════════════════════════════
-   SCROLLBAR
-   ═══════════════════════════════════════════════════ */
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
-
-/* ═══════════════════════════════════════════════════
-   RESPONSIVE
-   ═══════════════════════════════════════════════════ */
 @media (max-width: 900px) {
   .metrics-row { grid-template-columns: 1fr 1fr; }
 }
@@ -454,9 +376,6 @@ select option { background: #1a1e28; }
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════
-     HEADER
-     ═══════════════════════════════════════════════ -->
 <header class="header">
   <div class="logo-badge">F1</div>
   <div class="header-title">Tyre Degradation Optimizer</div>
@@ -465,13 +384,7 @@ select option { background: #1a1e28; }
 </header>
 
 <div class="app">
-
-  <!-- ═══════════════════════════════════════════════
-       SIDEBAR — all user inputs live here
-       ═══════════════════════════════════════════════ -->
   <aside class="sidebar">
-
-    <!-- 1. Circuit selector -->
     <div class="card">
       <div class="card-title">Circuit</div>
       <label class="field">
@@ -491,7 +404,6 @@ select option { background: #1a1e28; }
       </label>
     </div>
 
-    <!-- 2. Race conditions -->
     <div class="card">
       <div class="card-title">Race Conditions</div>
       <div style="display:flex;flex-direction:column;gap:12px">
@@ -527,7 +439,6 @@ select option { background: #1a1e28; }
       </div>
     </div>
 
-    <!-- 3. Starting compound -->
     <div class="card">
       <div class="card-title">Starting Compound</div>
       <div class="tyre-grid">
@@ -549,7 +460,6 @@ select option { background: #1a1e28; }
       </div>
     </div>
 
-    <!-- 4. Car & driver params -->
     <div class="card">
       <div class="card-title">Car & Driver</div>
       <div style="display:flex;flex-direction:column;gap:12px">
@@ -584,15 +494,9 @@ select option { background: #1a1e28; }
     </div>
 
     <button class="btn-analyze" id="btn-run" onclick="runAnalysis()">▶ ANALYZE STRATEGY</button>
-
   </aside>
 
-  <!-- ═══════════════════════════════════════════════
-       MAIN CONTENT AREA
-       ═══════════════════════════════════════════════ -->
   <main class="main" id="main-area">
-
-    <!-- Empty state shown before first analysis -->
     <div class="empty-state" id="empty-state">
       <div class="empty-icon">⬤</div>
       <div class="empty-title">Configure &amp; Run Analysis</div>
@@ -602,10 +506,7 @@ select option { background: #1a1e28; }
       </div>
     </div>
 
-    <!-- Results container — hidden until analysis runs -->
     <div id="results" style="display:none;flex-direction:column;gap:18px;">
-
-      <!-- Circuit summary row -->
       <div class="card">
         <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
           <div>
@@ -619,10 +520,8 @@ select option { background: #1a1e28; }
         </div>
       </div>
 
-      <!-- KPI tiles -->
       <div class="metrics-row" id="metrics-row"></div>
 
-      <!-- Tabbed analysis panels -->
       <div>
         <div class="tabs">
           <button class="tab active" onclick="showTab('degradation',this)">Degradation Curve</button>
@@ -631,7 +530,6 @@ select option { background: #1a1e28; }
           <button class="tab" onclick="showTab('wear',this)">Wear Sim</button>
         </div>
 
-        <!-- Tab: Degradation -->
         <div id="tab-degradation" class="tab-pane">
           <div class="card">
             <div class="card-title">Tyre Life Remaining — All Compounds</div>
@@ -642,7 +540,6 @@ select option { background: #1a1e28; }
           </div>
         </div>
 
-        <!-- Tab: Pace delta -->
         <div id="tab-pace" class="tab-pane" style="display:none">
           <div class="card">
             <div class="card-title">Lap Time Loss vs Fresh Tyre (selected compound)</div>
@@ -652,7 +549,6 @@ select option { background: #1a1e28; }
           </div>
         </div>
 
-        <!-- Tab: Pit strategy -->
         <div id="tab-strategy" class="tab-pane" style="display:none">
           <div class="card">
             <div class="card-title">Calculated Pit Stop Strategies — Ranked by Race Time</div>
@@ -662,7 +558,6 @@ select option { background: #1a1e28; }
           </div>
         </div>
 
-        <!-- Tab: Wear simulator -->
         <div id="tab-wear" class="tab-pane" style="display:none">
           <div class="card">
             <div class="card-title">Live Tyre Wear Simulator</div>
@@ -679,29 +574,17 @@ select option { background: #1a1e28; }
         </div>
       </div>
 
-      <!-- AI strategy briefing -->
       <div class="ai-box">
-        <div class="ai-badge">AI STRATEGY ENGINE · CLAUDE</div>
+        <div class="ai-badge">AI STRATEGY BRIEFING</div>
         <div class="ai-text" id="ai-text">
           <span class="ldots">Generating race strategy briefing</span>
         </div>
       </div>
-
-    </div><!-- /#results -->
+    </div>
   </main>
-</div><!-- /.app -->
+</div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     JAVASCRIPT — all logic below
-     ═══════════════════════════════════════════════════════════════ -->
 <script>
-
-/* ──────────────────────────────────────────────────────────────
-   DATA: Circuit definitions
-   Each circuit has real characteristics that affect tyre wear.
-   abrasion: how rough the tarmac is (high = tyres wear faster)
-   type: street circuits have smoother tarmac than permanent tracks
-────────────────────────────────────────────────────────────── */
 const CIRCUITS = {
   monaco:      { name:'Monaco',                 country:'Monte Carlo, MCO', laps:78, km:3.337, type:'street',    abrasion:'low',    corners:19, meta:'3.337 km · 78 laps · Street Circuit' },
   silverstone: { name:'Silverstone',            country:'Northants, GBR',   laps:52, km:5.891, type:'permanent', abrasion:'high',   corners:18, meta:'5.891 km · 52 laps · Permanent Circuit' },
@@ -715,16 +598,6 @@ const CIRCUITS = {
   abu_dhabi:   { name:'Yas Marina',             country:'Abu Dhabi, UAE',   laps:58, km:5.281, type:'permanent', abrasion:'low',    corners:16, meta:'5.281 km · 58 laps · Marina' },
 };
 
-/* ──────────────────────────────────────────────────────────────
-   DATA: Tyre compound properties
-   These values are based on Pirelli's publicly known tyre
-   performance windows and F1 team strategy patterns.
-
-   baseLife     = how many laps the tyre lasts under normal conditions
-   peakLap      = when the tyre reaches its warmup / peak grip window
-   degradRate   = % of tyre life lost per lap (baseline, before multipliers)
-   lapTimeDelta = how many seconds slower this compound is vs Soft baseline
-────────────────────────────────────────────────────────────── */
 const TYRES = {
   S: { label:'Soft',   color:'#E8002D', dash:[],         baseLife:25, peakLap:5,  degradRate:3.2, lapTimeDelta:0.0  },
   M: { label:'Medium', color:'#FFD700', dash:[5,4],       baseLife:38, peakLap:8,  degradRate:2.0, lapTimeDelta:0.45 },
@@ -733,38 +606,25 @@ const TYRES = {
   W: { label:'Wet',    color:'#0070c0', dash:[3,3],        baseLife:22, peakLap:4,  degradRate:3.8, lapTimeDelta:5.5  },
 };
 
-/* ──────────────────────────────────────────────────────────────
-   DATA: Driving style multipliers on tyre wear
-────────────────────────────────────────────────────────────── */
 const STYLE_MULT = { conservative:0.75, balanced:1.0, aggressive:1.35, push:1.7 };
 
-/* ──────────────────────────────────────────────────────────────
-   STATE — tracks what user has selected
-────────────────────────────────────────────────────────────── */
-let selectedTyre  = 'S';
-let degChart      = null;
-let paceChart     = null;
-let simData       = null;   // populated after analysis runs
+let selectedTyre = 'S';
+let degChart     = null;
+let paceChart    = null;
+let simData      = null;
 
-/* ──────────────────────────────────────────────────────────────
-   UI HELPERS
-────────────────────────────────────────────────────────────── */
-
-// Wire up range sliders to display their value next to them
 ['track-temp','air-temp','humidity','fuel','pressure'].forEach(id => {
   const sl  = document.getElementById('sl-' + id);
   const out = document.getElementById('out-' + id);
   if (sl && out) sl.oninput = () => out.textContent = sl.value;
 });
 
-// Tyre selector — highlights the chosen compound button
 function selectTyre(btn, t) {
   selectedTyre = t;
   document.querySelectorAll('.tyre-btn').forEach(b => b.className = 'tyre-btn');
   btn.classList.add('sel-' + t);
 }
 
-// Tab switcher — shows one analysis panel at a time
 function showTab(tab, btn) {
   document.querySelectorAll('.tab-pane').forEach(p => p.style.display = 'none');
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
@@ -772,76 +632,27 @@ function showTab(tab, btn) {
   btn.classList.add('active');
 }
 
-/* ──────────────────────────────────────────────────────────────
-   PHYSICS MODEL: calcDegradation()
-
-   This is the core prediction engine.
-   For every lap of the race it calculates how much tyre life remains.
-
-   The formula multiplies several real-world factors together:
-
-   tempFactor   — hotter track = faster rubber breakdown.
-                  Above 35°C each extra degree adds 1.2% more wear.
-                  Basis: Pirelli's operating window is 15–50°C.
-
-   fuelFactor   — heavier car stresses tyres more. Fuel burns off
-                  ~1.6kg/lap so this factor reduces over the race.
-
-   humFactor    — wet/intermediate tyres perform better (lower wear)
-                  in humid conditions. Dry tyres are slightly hurt.
-
-   styleMult    — driver input: conservative saves rubber, Max Attack
-                  destroys it (1.7× baseline wear rate).
-
-   Thermal runaway — once a tyre drops below 20% life, the model
-   accelerates degradation. This mirrors the real "cliff" you see
-   on TV when a driver suddenly loses multiple tenths per lap.
-────────────────────────────────────────────────────────────── */
 function calcDegradation(compound, totalLaps, trackTemp, fuel, styleMult, humidity) {
   const tp = TYRES[compound];
-
-  // Calculate environmental multipliers
   const tempFactor = 1 + Math.max(0, (trackTemp - 35)) * 0.012;
   const fuelFactor = 1 + (fuel - 70) * 0.003;
-  const humFactor  = (compound === 'W' || compound === 'I')
-                     ? 0.70
-                     : 1 + humidity * 0.001;
-
+  const humFactor  = (compound === 'W' || compound === 'I') ? 0.70 : 1 + humidity * 0.001;
   const baseMult = tempFactor * fuelFactor * styleMult * humFactor;
-
-  const result = [100]; // lap 0 = full tyre
+  const result = [100];
   for (let lap = 1; lap <= totalLaps; lap++) {
-    // Fuel burns off as race progresses — car gets lighter, less tyre stress
     const fuelRemaining = fuel * (1 - lap / totalLaps);
     const currentFuelFactor = 1 + Math.max(0, fuelRemaining - 70) * 0.0015;
-
-    // Two-phase degradation:
-    //   Phase 1 (warmup): gentle wear while tyre comes up to temperature
-    //   Phase 2 (normal): full degradation rate
     const phase1Laps = Math.min(lap, tp.peakLap);
     const phase2Laps = Math.max(0, lap - tp.peakLap);
-
     let remaining = 100
       - (phase1Laps * tp.degradRate * 0.4 * baseMult * currentFuelFactor)
       - (phase2Laps * tp.degradRate       * baseMult * currentFuelFactor);
-
-    // Thermal runaway — exponential cliff below 20% life
-    if (remaining < 20) {
-      remaining = remaining - (20 - remaining) * 0.35;
-    }
-
+    if (remaining < 20) remaining = remaining - (20 - remaining) * 0.35;
     result.push(Math.max(0, Math.round(remaining * 10) / 10));
   }
   return result;
 }
 
-/* ──────────────────────────────────────────────────────────────
-   PHYSICS MODEL: calcLapDelta()
-
-   How many seconds slower is each lap compared to lap 1?
-   As tyres wear, grip drops → laptimes increase.
-   This is what you actually see on the timing screens in races.
-────────────────────────────────────────────────────────────── */
 function calcLapDelta(compound, totalLaps, trackTemp, fuel, styleMult) {
   const tp = TYRES[compound];
   const tempFactor = 1 + Math.max(0, (trackTemp - 35)) * 0.008;
@@ -849,52 +660,37 @@ function calcLapDelta(compound, totalLaps, trackTemp, fuel, styleMult) {
   for (let lap = 1; lap <= totalLaps; lap++) {
     const lifeArr    = calcDegradation(compound, lap, trackTemp, fuel, styleMult, 40);
     const wearPct    = 100 - lifeArr[lap];
-    const wearDelta  = wearPct * 0.025 * tempFactor;    // seconds lost from general wear
-    const blistering = wearPct > 60 ? (wearPct - 60) * 0.04 : 0; // extra loss from blistering
+    const wearDelta  = wearPct * 0.025 * tempFactor;
+    const blistering = wearPct > 60 ? (wearPct - 60) * 0.04 : 0;
     deltas.push(Math.round((tp.lapTimeDelta + wearDelta + blistering) * 100) / 100);
   }
   return deltas;
 }
 
-/* ──────────────────────────────────────────────────────────────
-   STRATEGY ENGINE: calcStrategies()
-
-   Brute-forces every valid 1-stop and 2-stop combination.
-   "Valid" means the tyres last long enough for each stint.
-   Total race time = (all lap times) + (22 seconds lost per pit stop).
-   Sorts by fastest total time → best strategy = index 0.
-────────────────────────────────────────────────────────────── */
 function calcStrategies(totalLaps, trackTemp, fuel, styleMult, humidity, weather) {
-  const PIT_LOSS   = 22;  // seconds lost per pit stop visit
-  const BASE_LAP   = 90;  // baseline lap time in seconds
-  const compounds  = weather === 'dry' ? ['S','M','H']
-                   : weather === 'damp' ? ['I','M','H']
-                   : ['W','I'];
-  const results    = [];
+  const PIT_LOSS  = 22;
+  const BASE_LAP  = 90;
+  const compounds = weather === 'dry' ? ['S','M','H'] : weather === 'damp' ? ['I','M','H'] : ['W','I'];
+  const results   = [];
 
-  // 1-stop strategies — two stints, one pit
   compounds.forEach(c1 => {
     compounds.forEach(c2 => {
       if (c1 === c2) return;
       [0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65].forEach(ratio => {
-        const pitLap  = Math.round(totalLaps * ratio);
-        const life1   = TYRES[c1].baseLife / styleMult;
-        const life2   = TYRES[c2].baseLife / styleMult;
+        const pitLap = Math.round(totalLaps * ratio);
+        const life1  = TYRES[c1].baseLife / styleMult;
+        const life2  = TYRES[c2].baseLife / styleMult;
         if (pitLap > life1 || (totalLaps - pitLap) > life2) return;
-
         let time = PIT_LOSS;
-        for (let lap = 1; lap <= pitLap; lap++) {
+        for (let lap = 1; lap <= pitLap; lap++)
           time += BASE_LAP + calcLapDelta(c1, pitLap, trackTemp, fuel, styleMult)[lap-1];
-        }
-        for (let lap = 1; lap <= totalLaps - pitLap; lap++) {
+        for (let lap = 1; lap <= totalLaps - pitLap; lap++)
           time += BASE_LAP + calcLapDelta(c2, totalLaps-pitLap, trackTemp, fuel, styleMult)[lap-1];
-        }
         results.push({ stops:1, compounds:[c1,c2], pits:[pitLap], time:Math.round(time) });
       });
     });
   });
 
-  // 2-stop strategies — three stints, two pits
   compounds.forEach(c1 => {
     compounds.forEach(c2 => {
       compounds.forEach(c3 => {
@@ -904,17 +700,15 @@ function calcStrategies(totalLaps, trackTemp, fuel, styleMult, humidity, weather
         const l2 = TYRES[c2].baseLife / styleMult;
         const l3 = TYRES[c3].baseLife / styleMult;
         if (p1 > l1 || (p2-p1) > l2 || (totalLaps-p2) > l3) return;
-
         let time = PIT_LOSS * 2;
-        for (let lap = 1; lap <= p1; lap++)           time += BASE_LAP + calcLapDelta(c1,p1,trackTemp,fuel,styleMult)[lap-1];
-        for (let lap = 1; lap <= p2-p1; lap++)         time += BASE_LAP + calcLapDelta(c2,p2-p1,trackTemp,fuel,styleMult)[lap-1];
-        for (let lap = 1; lap <= totalLaps-p2; lap++)  time += BASE_LAP + calcLapDelta(c3,totalLaps-p2,trackTemp,fuel,styleMult)[lap-1];
+        for (let lap = 1; lap <= p1; lap++)          time += BASE_LAP + calcLapDelta(c1,p1,trackTemp,fuel,styleMult)[lap-1];
+        for (let lap = 1; lap <= p2-p1; lap++)        time += BASE_LAP + calcLapDelta(c2,p2-p1,trackTemp,fuel,styleMult)[lap-1];
+        for (let lap = 1; lap <= totalLaps-p2; lap++) time += BASE_LAP + calcLapDelta(c3,totalLaps-p2,trackTemp,fuel,styleMult)[lap-1];
         results.push({ stops:2, compounds:[c1,c2,c3], pits:[p1,p2], time:Math.round(time) });
       });
     });
   });
 
-  // De-duplicate and return top 8 sorted by fastest time
   const seen = new Set();
   return results
     .filter(s => { const k = s.compounds.join()+s.pits.join(); if(seen.has(k)) return false; seen.add(k); return true; })
@@ -927,19 +721,11 @@ function fmtTime(s) {
   return `${h}h ${String(m).padStart(2,'0')}m ${String(ss).padStart(2,'0')}s`;
 }
 
-/* ──────────────────────────────────────────────────────────────
-   MAIN: runAnalysis()
-   Called when user clicks "Analyze Strategy".
-   Reads all inputs, runs the models, and renders results.
-────────────────────────────────────────────────────────────── */
 function runAnalysis() {
   const btn = document.getElementById('btn-run');
   btn.disabled = true;
   btn.textContent = '⏳ CALCULATING...';
-
-  // Small timeout so the button state renders before heavy JS runs
   setTimeout(() => {
-    // ── Read all inputs ──────────────────────────────────────
     const circuitKey = document.getElementById('sel-circuit').value;
     const circuit    = CIRCUITS[circuitKey];
     const trackTemp  = +document.getElementById('sl-track-temp').value;
@@ -952,30 +738,26 @@ function runAnalysis() {
     const totalLaps  = +document.getElementById('inp-laps').value || circuit.laps;
     const styleMult  = STYLE_MULT[style];
 
-    // ── Run physics models ───────────────────────────────────
     const degData = {};
     Object.keys(TYRES).forEach(c => {
       degData[c] = calcDegradation(c, totalLaps, trackTemp, fuel, styleMult, humidity);
     });
 
-    const tp         = TYRES[selectedTyre];
-    const effLife    = Math.round(tp.baseLife / styleMult * (1 - Math.max(0, trackTemp-35)*0.006));
-    const pitWindow  = [Math.max(1, effLife - 5), Math.min(totalLaps - 5, effLife + 5)];
+    const tp        = TYRES[selectedTyre];
+    const effLife   = Math.round(tp.baseLife / styleMult * (1 - Math.max(0, trackTemp-35)*0.006));
+    const pitWindow = [Math.max(1, effLife - 5), Math.min(totalLaps - 5, effLife + 5)];
     const strategies = calcStrategies(totalLaps, trackTemp, fuel, styleMult, humidity, weather);
 
-    // Save for wear simulator
     simData = { degData, totalLaps };
     document.getElementById('sl-sim-lap').max = totalLaps;
     document.getElementById('sl-sim-lap').value = 1;
     document.getElementById('out-sim-lap').textContent = '1';
     updateWear(1);
 
-    // ── Reveal results panel ─────────────────────────────────
     document.getElementById('empty-state').style.display = 'none';
     const res = document.getElementById('results');
     res.style.display = 'flex';
 
-    // ── Circuit header ───────────────────────────────────────
     document.getElementById('r-name').textContent    = circuit.name;
     document.getElementById('r-country').textContent = circuit.country;
     document.getElementById('r-meta').textContent    = circuit.meta;
@@ -995,14 +777,13 @@ function runAnalysis() {
       tagsEl.appendChild(s);
     });
 
-    // ── KPI metrics ──────────────────────────────────────────
     const metricsEl = document.getElementById('metrics-row');
     metricsEl.innerHTML = '';
     [
-      { label:'Tyre Life',    value:effLife,                unit:'laps (est.)' },
-      { label:'Pit Window',   value:pitWindow[0]+'-'+pitWindow[1], unit:'lap range' },
-      { label:'Wear Rate',    value:(tp.degradRate*styleMult).toFixed(1)+'%', unit:'per lap' },
-      { label:'Strategies',  value:strategies.length,       unit:'evaluated' },
+      { label:'Tyre Life',   value:effLife,                         unit:'laps (est.)' },
+      { label:'Pit Window',  value:pitWindow[0]+'-'+pitWindow[1],   unit:'lap range' },
+      { label:'Wear Rate',   value:(tp.degradRate*styleMult).toFixed(1)+'%', unit:'per lap' },
+      { label:'Strategies',  value:strategies.length,               unit:'evaluated' },
     ].forEach(m => {
       const d = document.createElement('div');
       d.className = 'metric';
@@ -1012,14 +793,9 @@ function runAnalysis() {
       metricsEl.appendChild(d);
     });
 
-    // ── Charts ───────────────────────────────────────────────
     buildDegChart(totalLaps, degData);
     buildPaceChart(totalLaps, trackTemp, fuel, styleMult);
-
-    // ── Strategy table ───────────────────────────────────────
     buildStratTable(strategies);
-
-    // ── AI briefing ──────────────────────────────────────────
     fetchAIBriefing({ circuit, trackTemp, airTemp, humidity, weather, fuel, pressure, style,
                       totalLaps, selectedTyre, effLife, pitWindow, strategies });
 
@@ -1028,14 +804,10 @@ function runAnalysis() {
   }, 150);
 }
 
-/* ──────────────────────────────────────────────────────────────
-   CHART BUILDERS
-────────────────────────────────────────────────────────────── */
 function buildDegChart(totalLaps, degData) {
   if (degChart) degChart.destroy();
   const ctx  = document.getElementById('chart-deg').getContext('2d');
   const laps = Array.from({ length: totalLaps+1 }, (_, i) => i);
-
   degChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -1068,8 +840,6 @@ function buildDegChart(totalLaps, degData) {
       },
     },
   });
-
-  // Custom legend below chart
   const leg = document.getElementById('leg-deg');
   leg.innerHTML = '';
   Object.keys(TYRES).forEach(c => {
@@ -1086,7 +856,6 @@ function buildPaceChart(totalLaps, trackTemp, fuel, styleMult) {
   const labels = Array.from({ length: totalLaps }, (_, i) => i+1);
   const deltas = calcLapDelta(selectedTyre, totalLaps, trackTemp, fuel, styleMult);
   const color  = TYRES[selectedTyre].color;
-
   paceChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -1135,11 +904,6 @@ function buildStratTable(strategies) {
     </tbody>`;
 }
 
-/* ──────────────────────────────────────────────────────────────
-   WEAR SIMULATOR
-   Called whenever the lap scrubber is dragged.
-   Shows each compound's remaining life as a coloured bar.
-────────────────────────────────────────────────────────────── */
 function updateWear(lap) {
   document.getElementById('out-sim-lap').textContent = lap;
   if (!simData) return;
@@ -1162,71 +926,60 @@ function updateWear(lap) {
   });
 }
 
-/* ──────────────────────────────────────────────────────────────
-   AI STRATEGY BRIEFING
-   Sends race parameters to the Claude API and displays a
-   professional race engineer strategy briefing.
-────────────────────────────────────────────────────────────── */
+/* ─────────────────────────────────────────────────────────────
+   THIS IS THE FIXED FUNCTION.
+   Instead of calling Claude directly from the browser (which
+   gets blocked by CORS), it calls /api/strategy on your own
+   Flask server. Flask then calls Claude safely from the backend.
+───────────────────────────────────────────────────────────── */
 async function fetchAIBriefing(p) {
   const el = document.getElementById('ai-text');
   el.innerHTML = '<span class="ldots">Generating race strategy briefing</span>';
 
-  const bestStrat     = p.strategies[0];
-  const bestSeq       = bestStrat?.compounds.map(c => TYRES[c].label).join(' → ') || 'N/A';
-  const bestPits      = bestStrat?.pits.join(', ') || 'N/A';
-
-  const prompt = `You are a senior F1 race strategist on the pit wall. Provide a sharp, data-driven race strategy briefing based on these parameters.
-
-CIRCUIT: ${p.circuit.name} (${p.circuit.country})
-Circuit type: ${p.circuit.type} | Abrasion: ${p.circuit.abrasion}
-Race distance: ${p.totalLaps} laps
-
-CONDITIONS:
-- Track: ${p.trackTemp}°C | Air: ${p.airTemp}°C | Humidity: ${p.humidity}%
-- Weather: ${p.weather}
-- Fuel: ${p.fuel}kg | Pressure: ${p.pressure}psi
-- Driver style: ${p.style}
-
-TYRE ANALYSIS:
-- Starting compound: ${TYRES[p.selectedTyre].label}
-- Estimated tyre life: ${p.effLife} laps
-- Pit window: Laps ${p.pitWindow[0]}–${p.pitWindow[1]}
-
-OPTIMAL STRATEGY CALCULATED: ${bestSeq}
-Pit stop laps: ${bestPits}
-Total strategies evaluated: ${p.strategies.length}
-
-Provide a structured briefing with these exact sections:
-1. STRATEGIC OVERVIEW (2 sentences)
-2. KEY RISKS (bullet points)
-3. PIT WINDOW RECOMMENDATION (with reasoning)
-4. DRIVER NOTES (style adjustment if needed)
-5. TACTICAL EDGE (one decisive advantage to exploit)
-
-Be direct and precise. Use <strong> for key numbers and compound names. Write like a real pit wall engineer, not a commentator.`;
+  const bestStrat = p.strategies[0];
+  const bestSeq   = bestStrat?.compounds.map(c => TYRES[c].label).join(' → ') || 'N/A';
+  const bestPits  = bestStrat?.pits.join(', ') || 'N/A';
 
   try {
-    const res  = await fetch('https://api.anthropic.com/v1/messages', {
+    const res = await fetch('/api/strategy', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model:      'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages:   [{ role:'user', content:prompt }],
+        circuit_name:      p.circuit.name,
+        circuit_country:   p.circuit.country,
+        circuit_type:      p.circuit.type,
+        abrasion:          p.circuit.abrasion,
+        total_laps:        p.totalLaps,
+        track_temp:        p.trackTemp,
+        air_temp:          p.airTemp,
+        humidity:          p.humidity,
+        weather:           p.weather,
+        fuel:              p.fuel,
+        pressure:          p.pressure,
+        style:             p.style,
+        starting_compound: TYRES[p.selectedTyre].label,
+        eff_life:          p.effLife,
+        pit_window_start:  p.pitWindow[0],
+        pit_window_end:    p.pitWindow[1],
+        best_sequence:     bestSeq,
+        best_pits:         bestPits,
+        strategies_count:  p.strategies.length,
       }),
     });
     const data = await res.json();
-    const txt  = data.content?.map(b => b.text || '').join('') || 'Briefing unavailable.';
+    if (data.error) throw new Error(data.error);
+    const txt = data.briefing || 'Briefing unavailable.';
     el.innerHTML = txt
       .replace(/\n\n/g, '<br><br>')
       .replace(/\n/g, '<br>')
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  } catch {
-    el.innerHTML = `<strong>API offline — fallback summary:</strong><br><br>
+  } catch (err) {
+    el.innerHTML = `<strong>Strategy Briefing (AI offline):</strong><br><br>
       Starting on <strong>${TYRES[p.selectedTyre].label}</strong> compound.
       Pit window opens at lap <strong>${p.pitWindow[0]}</strong>.
       Recommended sequence: <strong>${bestSeq}</strong>.
-      At ${p.trackTemp}°C track temperature ${p.trackTemp > 45 ? 'thermal management is critical' : 'conditions are within normal operating range'}.`;
+      At ${p.trackTemp}°C track temperature ${p.trackTemp > 45 ? 'thermal management is critical — consider Medium start.' : 'conditions are within normal operating range.'}.
+      <br><br><span style="color:var(--muted);font-size:12px">⚠ To enable full AI briefings: add ANTHROPIC_API_KEY in your Vercel environment variables.</span>`;
   }
 }
 </script>
