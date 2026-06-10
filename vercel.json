@@ -1,23 +1,7 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/strategy.py",
-      "use": "@vercel/python"
-    },
-    {
-      "src": "templates/index.html",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/strategy",
-      "dest": "/api/strategy.py"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/templates/index.html"
-    }
+  "rewrites": [
+    { "source": "/api/strategy", "destination": "/api/strategy.py" },
+    { "source": "/(.*)", "destination": "/templates/index.html" }
   ]
 }
