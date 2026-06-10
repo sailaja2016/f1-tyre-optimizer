@@ -941,38 +941,24 @@ async function fetchAIBriefing(p) {
   const bestPits  = bestStrat?.pits.join(', ') || 'N/A';
 
   try {
-    const res = await fetch('/api/strategy', {
+    const ANTHROPIC_KEY = "sk-ant-YOUR-ACTUAL-KEY-HERE";
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_KEY,
+        'anthropic-version': '2023-06-01'
+      },
       body: JSON.stringify({
-        circuit_name:      p.circuit.name,
-        circuit_country:   p.circuit.country,
-        circuit_type:      p.circuit.type,
-        abrasion:          p.circuit.abrasion,
-        total_laps:        p.totalLaps,
-        track_temp:        p.trackTemp,
-        air_temp:          p.airTemp,
-        humidity:          p.humidity,
-        weather:           p.weather,
-        fuel:              p.fuel,
-        pressure:          p.pressure,
-        style:             p.style,
-        starting_compound: TYRES[p.selectedTyre].label,
-        eff_life:          p.effLife,
-        pit_window_start:  p.pitWindow[0],
-        pit_window_end:    p.pitWindow[1],
-        best_sequence:     bestSeq,
-        best_pits:         bestPits,
-        strategies_count:  p.strategies.length,
+        model: 'claude-opus-4-6',
+        max_tokens: 800,
+        messages: [{ role: 'user', content: `You are an F1 race strategist. Circuit: ${p.circuit.name}, ${p.totalLaps} laps, ${p.trackTemp}C track, ${p.weather} weather. Starting on ${TYRES[p.selectedTyre].label}. Style: ${p.style}. Pit window laps ${p.pitWindow[0]}-${p.pitWindow[1]}. Best strategy: ${bestSeq}, pit lap ${bestPits}. Write a 5-section briefing: 1.STRATEGIC OVERVIEW 2.KEY RISKS 3.PIT WINDOW 4.DRIVER NOTES 5.TACTICAL EDGE. Use **bold** for key values.` }]
       }),
     });
     const data = await res.json();
-    if (data.error) throw new Error(data.error);
-    const txt = data.briefing || 'Briefing unavailable.';
-    el.innerHTML = txt
-      .replace(/\n\n/g, '<br><br>')
-      .replace(/\n/g, '<br>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    const txt = data.content?.map(b => b.text || '').join('') || 'Unavailable.';
+    el.innerHTML = txt.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  }
   } catch (err) {
     el.innerHTML = `<strong>Strategy Briefing (AI offline):</strong><br><br>
       Starting on <strong>${TYRES[p.selectedTyre].label}</strong> compound.
