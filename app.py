@@ -1,82 +1,57 @@
-from flask import Flask, render_template, jsonify, request
-import os
-import json
-import urllib.request
-import urllib.error
+from flask import Flask, render_template, request, jsonify
+from dotenv import load_dotenv
+import os, json, urllib.request, urllib.error
 
+load_dotenv()
 app = Flask(__name__)
 
 @app.route("/")
 def index():
     return render_template("index.html")
 
-@app.route("/health")
-def health():
-    return jsonify({"status": "ok"})
-
 @app.route("/api/strategy", methods=["POST"])
 def strategy():
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if not api_key:
-        return jsonify({"error": "ANTHROPIC_API_KEY not set"}), 500
+    key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not key:
+        return jsonify({"error": "No API key found"}), 500
 
     data = request.get_json()
 
-    prompt = f"""You are a senior F1 race strategist on the pit wall. Provide a sharp, data-driven race strategy briefing.
-
-CIRCUIT: {data.get('circuit_name')} ({data.get('circuit_country')})
-Circuit type: {data.get('circuit_type')} | Abrasion: {data.get('abrasion')}
-Race distance: {data.get('total_laps')} laps
-
-CONDITIONS:
-- Track: {data.get('track_temp')}°C | Air: {data.get('air_temp')}°C | Humidity: {data.get('humidity')}%
-- Weather: {data.get('weather')}
-- Fuel: {data.get('fuel')}kg | Pressure: {data.get('pressure')}psi
-- Driver style: {data.get('style')}
-
-TYRE ANALYSIS:
-- Starting compound: {data.get('starting_compound')}
-- Estimated tyre life: {data.get('eff_life')} laps
-- Pit window: Laps {data.get('pit_window_start')}–{data.get('pit_window_end')}
-
-OPTIMAL STRATEGY: {data.get('best_sequence')}
-Pit stop laps: {data.get('best_pits')}
-Strategies evaluated: {data.get('strategies_count')}
-
-Provide a structured briefing:
-1. STRATEGIC OVERVIEW (2 sentences)
-2. KEY RISKS (bullet points)
-3. PIT WINDOW RECOMMENDATION (with reasoning)
-4. DRIVER NOTES
-5. TACTICAL EDGE
-
-Use ** around key numbers and compound names. Write like a real pit wall engineer."""
+    prompt = (
+        "You are an F1 race strategist. Give a 5-section briefing.\n"
+        f"Circuit: {data.get('circuit_name')}, {data.get('total_laps')} laps, "
+        f"{data.get('track_temp')}C, {data.get('weather')} weather.\n"
+        f"Tyre: {data.get('starting_compound')}, style: {data.get('style')}.\n"
+        f"Pit window: laps {data.get('pit_window_start')}-{data.get('pit_window_end')}.\n"
+        f"Best strategy: {data.get('best_sequence')}, pit lap {data.get('best_pits')}.\n"
+        "Sections: 1.STRATEGIC OVERVIEW 2.KEY RISKS 3.PIT WINDOW 4.DRIVER NOTES 5.TACTICAL EDGE\n"
+        "Use **bold** for key numbers and compound names."
+    )
 
     payload = json.dumps({
         "model": "claude-opus-4-6",
-        "max_tokens": 1000,
+        "max_tokens": 800,
         "messages": [{"role": "user", "content": prompt}]
-    }).encode("utf-8")
+    }).encode()
 
     req = urllib.request.Request(
         "https://api.anthropic.com/v1/messages",
         data=payload,
         headers={
             "Content-Type": "application/json",
-            "x-api-key": api_key,
+            "x-api-key": key,
             "anthropic-version": "2023-06-01"
-        },
-        method="POST"
+        }
     )
 
     try:
-        with urllib.request.urlopen(req) as resp:
-            result = json.loads(resp.read().decode("utf-8"))
-            text = "".join(b.get("text", "") for b in result.get("content", []))
+        with urllib.request.urlopen(req, timeout=25) as r:
+            result = json.loads(r.read())
+            text = "".join(b.get("text","") for b in result.get("content",[]))
             return jsonify({"briefing": text})
     except urllib.error.HTTPError as e:
-        body = e.read().decode("utf-8")
-        return jsonify({"error": f"Claude API error: {e.code}", "detail": body}), 500
+        err = e.read().decode()
+        return jsonify({"error": str(e.code), "detail": err}), 500
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 

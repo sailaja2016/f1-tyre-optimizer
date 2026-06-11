@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/api/strategy", "destination": "/api/strategy.py" },
-    { "source": "/(.*)", "destination": "/templates/index.html" }
-  ]
+  "builds": [{"src": "app.py", "use": "@vercel/python"}],
+  "routes": [{"src": "/(.*)", "dest": "app.py"}]
 }
