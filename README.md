@@ -1,133 +1,130 @@
-# F1 Tyre Degradation Optimizer
+# 🏎️ F1 Tyre Degradation Optimizer
 
-A physics-based F1 tyre strategy simulator with AI race engineer briefings powered by Claude.
-
----
-
-## What This Project Does
-
-The app simulates tyre behaviour across a race and calculates the optimal pit stop strategy.
-It models real-world degradation physics: track temperature, fuel load, driving style,
-tyre compound properties, and thermal runaway effects.
+A web-based F1 race strategy simulation tool that models tyre degradation across a race and calculates the optimal pit stop strategy, powered by physics-based simulation and AI analysis.
 
 ---
 
-## How the Prediction Works (Explain to Others)
-
-> "It's a physics-based simulation engine, not a machine learning model. 
-> The predictions are built from mathematical models of real F1 tyre behaviour — 
-> Pirelli's publicly known tyre operating windows, degradation curves, 
-> and the effect of track temperature, fuel weight, and driving style on rubber wear.
-> The strategy engine brute-forces every valid 1-stop and 2-stop combination 
-> and ranks them by total simulated race time. 
-> The AI layer (Claude API) then interprets the results like a real pit wall engineer."
+## 📌 About The Project:
+Formula 1 race strategy is one of the most complex and high-stakes decision-making environments in sport. This project presents an interactive tyre degradation optimizer that simulates real-world tyre behaviour across a race distance, calculates every valid pit stop strategy, and delivers a professional race engineer-style briefing powered by the Claude AI API.
 
 ---
 
-## Project Structure
+## ⚠️ Problem:
+- F1 tyre strategy involves dozens of variables — track temperature, fuel load, driving style, compound choice — making it difficult to understand without engineering tools.
+- Fans and enthusiasts have no accessible way to simulate "what if" race scenarios or understand why teams make specific pit stop decisions.
+- There is no simple tool that combines tyre physics simulation with AI-generated strategy interpretation in one place.
 
+## 💡 Solution:
+- A physics-based simulation engine models tyre degradation lap-by-lap across all five Pirelli compounds using real F1 parameters.
+- A strategy engine brute-forces every valid 1-stop and 2-stop combination and ranks them by total simulated race time.
+- The Claude AI API generates a professional pit wall strategy briefing interpreting the simulation results.
+- Integrated into a Flask web application with an interactive dashboard interface.
+
+## 📈 Results:
+- Simulates full race degradation curves for all 5 tyre compounds
+- Evaluates and ranks up to 8 valid pit stop strategies per race
+- Covers 10 F1 circuits with circuit-specific characteristics
+
+---
+
+## 🖥️ Screenshots:
+<img width="1920" height="828" alt="  (1)" src="https://github.com/user-attachments/assets/7c7766ae-1176-403d-b1cd-eb2d4309657e" />
+<img width="1920" height="830" alt="  (2)" src="https://github.com/user-attachments/assets/9b3499a0-01b7-4f66-8b78-3ea0b607c785" />
+<img width="1920" height="824" alt="  (3)" src="https://github.com/user-attachments/assets/33c7f77a-313c-4852-b7e0-37a091b39a04" />
+<img width="1568" height="580" alt="WhatsApp Image 2026-06-11 at 5 52 55 PM" src="https://github.com/user-attachments/assets/2cf27167-0aff-43b3-a432-216d2696b9b6" />
+
+---
+
+## 💻 The System:
+- User selects circuit, weather conditions, tyre compound, fuel load, and driving style
+- Physics model calculates lap-by-lap tyre life remaining for all compounds
+- Strategy engine evaluates all valid 1-stop and 2-stop sequences
+- Results displayed as degradation curves, lap time delta charts, strategy table, and wear simulator
+- Claude AI generates a 5-section race engineer briefing based on simulation output
+
+---
+
+## 🧠 How The Simulation Works:
+1. User sets race parameters — circuit, track temp, weather, fuel, driving style
+2. Degradation model applies temperature, fuel weight, humidity, and style multipliers per lap
+3. Two-phase degradation simulates tyre warmup then full wear rate
+4. Thermal runaway effect modelled below 20% tyre life (the "cliff")
+5. Strategy engine tests every compound combination across valid pit windows
+6. Total race time calculated as sum of all lap times plus 22-second pit stop penalty
+7. Strategies ranked by fastest total time — optimal highlighted
+8. Claude AI interprets results as a structured pit wall briefing
+
+---
+
+## 🛠️ Tech Stack:
+
+|     Layer      |                Technology                     |
+|----------------|-----------------------------------------------|
+| Backend        | Python 3, Flask                               |
+| AI Integration | Anthropic Claude API                          |
+| Frontend       | HTML5, CSS3, Vanilla JavaScript               |
+| Charts         | Chart.js                                      |
+| Fonts          | Google Fonts (Rajdhani, IBM Plex Mono, Inter) |
+| IDE            | Visual Studio Code                            |
+
+---
+
+## 📁 Project Structure:
 ```
 f1-tyre-optimizer/
-├── app.py                  ← Flask server (serves the HTML template)
+├── app.py                  ← Flask backend & AI strategy API
 ├── requirements.txt        ← Python dependencies
-├── Procfile                ← Render / Heroku process declaration
-├── render.yaml             ← Render auto-deploy configuration
+├── Procfile                ← Process declaration for deployment
+├── render.yaml             ← Render deployment configuration
 ├── vercel.json             ← Vercel deployment configuration
 ├── .gitignore
 ├── README.md
+├── api/
+│   └── strategy.py         ← Serverless AI strategy function
 └── templates/
-    └── index.html          ← The entire app (HTML + CSS + JS in one file)
+    └── index.html          ← Full frontend (single-page app)
 ```
 
 ---
 
-## Run Locally
+## ✅ Features:
 
-```bash
-# 1. Create virtual environment
-python -m venv venv
-source venv/bin/activate        # Mac/Linux
-venv\Scripts\activate           # Windows
-
-# 2. Install dependencies
-pip install -r requirements.txt
-
-# 3. Run
-python app.py
-
-# 4. Open browser
-# http://localhost:5000
-```
+|       Feature      |               Description                                                            |
+|--------------------|--------------------------------------------------------------------------------------|
+| Degradation Curve  | Lap-by-lap tyre life chart for all 5 compounds                                       |
+| Lap Pace Tab       | Time loss per lap vs fresh tyre for selected compound                                |
+| Pit Strategy Table | All valid strategies ranked by total race time                                       |
+| Wear Simulator     | Drag-slider to see tyre wear state at any lap                                        |
+| AI Briefing        | Claude-powered race engineer strategy analysis                                       |
+| 10 Circuits        | Monaco, Silverstone, Monza, Spa, Suzuka, Bahrain, Singapore, Mexico, COTA, Abu Dhabi |
+| 5 Compounds        | Soft, Medium, Hard, Intermediate, Wet                                                |
+| 4 Driving Styles   | Conservative, Balanced, Aggressive, Max Attack                                       |
 
 ---
 
-## Deploy to Vercel (Recommended — Faster & Free)
+## 📊 Simulation Model Details:
 
-1. Push this repo to GitHub
-2. Go to https://vercel.com → New Project → Import your repo
-3. Vercel auto-detects Python/Flask via `vercel.json`
-4. Click Deploy — done. Live URL in ~60 seconds.
-
-No environment variables needed unless you add a server-side API key.
-
----
-
-## Deploy to Render
-
-1. Push this repo to GitHub
-2. Go to https://render.com → New → Web Service
-3. Connect your GitHub repo
-4. Render reads `render.yaml` automatically
-5. Build command: `pip install -r requirements.txt`
-6. Start command: `gunicorn app:app`
-7. Click Deploy
+|      Parameter      |             Details                            |
+|---------------------|------------------------------------------------|
+| Compounds           | Soft, Medium, Hard, Intermediate, Wet          |
+| Degradation Factors | Track temp, fuel load, humidity, driving style |
+| Tyre Life (Soft)    | ~25 laps baseline                              |
+| Tyre Life (Medium)  | ~38 laps baseline                              |
+| Tyre Life (Hard)    | ~55 laps baseline                              |
+| Pit Stop Penalty    | 22 seconds per stop                            |
+| Thermal Runaway     | Modelled below 20% tyre life                   |
+| Strategy Types      | 1-stop and 2-stop combinations                 |
 
 ---
 
-## File Size
-
-This app is approximately **35–40 KB** total.
-There are no datasets, ML models, or large assets.
-The only external dependencies loaded at runtime are:
-- Google Fonts (from CDN, ~50KB network)
-- Chart.js (from CDN, ~200KB network)
-
-Both are loaded from CDN — they are NOT in this repo and do NOT count toward hosting limits.
+## ⚠️ Disclaimer:
+This application is developed for **academic and educational purposes only**.
+The simulation uses publicly known F1 tyre behaviour parameters and is **not based on official Pirelli or FIA data**. Results are for entertainment and learning purposes and should not be used for actual race strategy decisions.
 
 ---
 
-## Vercel vs Render — Which to Use?
+## 👩‍💻 Developed By:
 
-| Feature          | Vercel               | Render               |
-|------------------|----------------------|----------------------|
-| Speed            | ⚡ Faster (CDN edge) | Moderate             |
-| Free tier        | ✅ Very generous     | ✅ Available         |
-| Flask support    | ✅ Yes (serverless)  | ✅ Yes (full server) |
-| Cold starts      | Yes (serverless)     | Yes (free tier)      |
-| Best for         | Static + light API   | Full backends, DBs   |
-| Recommendation   | ✅ Use this          | If you add a DB later|
-
-**Use Vercel for this project.**
-
----
-
-## Tyre Compound Reference
-
-| Compound    | Colour | Life (normal) | Pace vs Soft |
-|-------------|--------|---------------|--------------|
-| Soft (S)    | Red    | ~25 laps      | Baseline     |
-| Medium (M)  | Yellow | ~38 laps      | +0.45s/lap   |
-| Hard (H)    | White  | ~55 laps      | +1.1s/lap    |
-| Inter (I)   | Green  | ~30 laps      | +2.8s/lap    |
-| Wet (W)     | Blue   | ~22 laps      | +5.5s/lap    |
-
----
-
-## Tech Stack
-
-- **Backend**: Python / Flask
-- **Frontend**: Vanilla HTML, CSS, JavaScript (no framework)
-- **Charts**: Chart.js (CDN)
-- **Fonts**: Google Fonts — Rajdhani, IBM Plex Mono, Inter
-- **AI**: Anthropic Claude API (claude-sonnet-4-20250514)
-- **Deployment**: Vercel (recommended) or Render
+*K. Sailaja*  
+B.Tech — Computer Science & Engineering   
+Batch: 2022–2026
