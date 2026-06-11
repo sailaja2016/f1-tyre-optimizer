@@ -1,57 +1,49 @@
-import json
-import os
-import urllib.request
-import urllib.error
+import json, os, urllib.request, urllib.error
 
 def handler(request):
-    if request.method == "OPTIONS":
-        from flask import Response
-        return Response("", 200)
+    try:
+        data = json.loads(request.body)
+    except:
+        data = {}
 
-    body = request.get_json(force=True, silent=True) or {}
-
-    api_key = os.environ.get("ANTHROPIC_API_KEY", "")
-    if not api_key:
-        return json.dumps({"error": "ANTHROPIC_API_KEY not set"}), 500, {"Content-Type": "application/json"}
+    key = os.environ.get("ANTHROPIC_API_KEY", "")
+    if not key:
+        return Response(json.dumps({"error": "no key"}), status=500, mimetype="application/json")
 
     prompt = (
-        f"You are a senior F1 race strategist. Give a race strategy briefing.\n\n"
-        f"Circuit: {body.get('circuit_name')} | Laps: {body.get('total_laps')} | "
-        f"Track: {body.get('track_temp')}C | Weather: {body.get('weather')}\n"
-        f"Starting tyre: {body.get('starting_compound')} | Style: {body.get('style')}\n"
-        f"Tyre life: {body.get('eff_life')} laps | Pit window: laps {body.get('pit_window_start')}-{body.get('pit_window_end')}\n"
-        f"Optimal strategy: {body.get('best_sequence')} | Pit lap(s): {body.get('best_pits')}\n\n"
-        f"Write 5 sections: 1.STRATEGIC OVERVIEW 2.KEY RISKS 3.PIT WINDOW 4.DRIVER NOTES 5.TACTICAL EDGE\n"
-        f"Use **bold** for key numbers and compound names."
+        "You are an F1 race strategist. Give a 5-section briefing.\n"
+        f"Circuit: {data.get('circuit_name')}, {data.get('total_laps')} laps, "
+        f"{data.get('track_temp')}C, {data.get('weather')} weather.\n"
+        f"Tyre: {data.get('starting_compound')}, style: {data.get('style')}.\n"
+        f"Pit window: laps {data.get('pit_window_start')}-{data.get('pit_window_end')}.\n"
+        f"Best strategy: {data.get('best_sequence')}, pit lap {data.get('best_pits')}.\n"
+        "Sections: 1.STRATEGIC OVERVIEW 2.KEY RISKS 3.PIT WINDOW 4.DRIVER NOTES 5.TACTICAL EDGE\n"
+        "Use **bold** for key numbers and compound names."
     )
 
     payload = json.dumps({
         "model": "claude-opus-4-6",
         "max_tokens": 800,
         "messages": [{"role": "user", "content": prompt}]
-    }).encode("utf-8")
+    }).encode()
 
     req = urllib.request.Request(
         "https://api.anthropic.com/v1/messages",
         data=payload,
         headers={
             "Content-Type": "application/json",
-            "x-api-key": api_key,
+            "x-api-key": key,
             "anthropic-version": "2023-06-01"
-        },
-        method="POST"
+        }
     )
 
     try:
-        with urllib.request.urlopen(req, timeout=25) as resp:
-            result = json.loads(resp.read().decode("utf-8"))
-            text = "".join(b.get("text", "") for b in result.get("content", []))
-            return json.dumps({"briefing": text}), 200, {
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
-            }
+        with urllib.request.urlopen(req, timeout=25) as r:
+            result = json.loads(r.read())
+            text = "".join(b.get("text","") for b in result.get("content",[]))
+            return Response(json.dumps({"briefing": text}), status=200, mimetype="application/json")
     except urllib.error.HTTPError as e:
-        detail = e.read().decode("utf-8")
-        return json.dumps({"error": f"API error {e.code}", "detail": detail}), 500, {"Content-Type": "application/json"}
+        err = e.read().decode()
+        return Response(json.dumps({"error": str(e.code), "detail": err}), status=500, mimetype="application/json")
     except Exception as e:
-        return json.dumps({"error": str(e)}), 500, {"Content-Type": "application/json"}
+        return Response(json.dumps({"error": str(e)}), status=500, mimetype="application/json")
