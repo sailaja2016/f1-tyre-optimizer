@@ -58,7 +58,7 @@ Formula 1 race strategy is one of the most complex and high-stakes decision-maki
 
 ## 🛠️ Tech Stack:
 
-|     Layer      |                Technology                     |
+|     Layer      |              Technology                       |
 |----------------|-----------------------------------------------|
 | Backend        | Python 3, Flask                               |
 | AI Integration | Anthropic Claude API                          |
