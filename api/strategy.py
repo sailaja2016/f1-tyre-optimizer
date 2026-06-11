@@ -1,8 +1,9 @@
 import json, os, urllib.request, urllib.error
+from flask import Response, request
 
-def handler(request):
+def handler(req=None):
     try:
-        data = json.loads(request.body)
+        data = json.loads(request.data)
     except:
         data = {}
 
@@ -27,7 +28,7 @@ def handler(request):
         "messages": [{"role": "user", "content": prompt}]
     }).encode()
 
-    req = urllib.request.Request(
+    req2 = urllib.request.Request(
         "https://api.anthropic.com/v1/messages",
         data=payload,
         headers={
@@ -38,7 +39,7 @@ def handler(request):
     )
 
     try:
-        with urllib.request.urlopen(req, timeout=25) as r:
+        with urllib.request.urlopen(req2, timeout=25) as r:
             result = json.loads(r.read())
             text = "".join(b.get("text","") for b in result.get("content",[]))
             return Response(json.dumps({"briefing": text}), status=200, mimetype="application/json")
