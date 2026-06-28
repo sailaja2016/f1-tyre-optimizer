@@ -11,7 +11,7 @@ def index():
 
 @app.route("/api/strategy", methods=["POST"])
 def strategy():
-    key = os.environ.get("ANTHROPIC_API_KEY", "")
+    key = os.environ.get("GEMINI_API_KEY", "")
     if not key:
         return jsonify({"error": "No API key found"}), 500
 
@@ -29,25 +29,19 @@ def strategy():
     )
 
     payload = json.dumps({
-        "model": "claude-opus-4-6",
-        "max_tokens": 800,
-        "messages": [{"role": "user", "content": prompt}]
+        "contents": [{"parts": [{"text": prompt}]}]
     }).encode()
 
     req = urllib.request.Request(
-        "https://api.anthropic.com/v1/messages",
+        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={key}",
         data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "x-api-key": key,
-            "anthropic-version": "2023-06-01"
-        }
+        headers={"Content-Type": "application/json"}
     )
 
     try:
         with urllib.request.urlopen(req, timeout=25) as r:
             result = json.loads(r.read())
-            text = "".join(b.get("text","") for b in result.get("content",[]))
+            text = result["candidates"][0]["content"]["parts"][0]["text"]
             return jsonify({"briefing": text})
     except urllib.error.HTTPError as e:
         err = e.read().decode()
