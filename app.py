@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, jsonify
-from dotenv import load_dotenv
 import os, json, urllib.request, urllib.error
 
-load_dotenv()
 app = Flask(__name__)
 
 @app.route("/")
