@@ -31,7 +31,7 @@ def strategy():
     }).encode()
 
     req = urllib.request.Request(
-        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={key}",
+        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={key}",
         data=payload,
         headers={"Content-Type": "application/json"}
     )
