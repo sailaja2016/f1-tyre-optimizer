@@ -1216,7 +1216,7 @@ async function fetchAIBriefing(p) {
       Pit window opens at lap <strong>${p.pitWindow[0]}</strong>.
       Recommended sequence: <strong>${bestSeq}</strong>.
       At ${p.trackTemp}°C track temperature ${p.trackTemp > 45 ? 'thermal management is critical — consider Medium start' : 'conditions are within normal operating range'}.
-      <br><br><span style="color:var(--muted);font-size:12px">To enable full AI briefings: add ANTHROPIC_API_KEY to your environment variables.</span>`;
+      <br><br><span style="color:var(--muted);font-size:12px">To enable full AI briefings: add GEMINI_API_KEY to your Vercel environment variables.</span>`;
   }
 }
 </script>
