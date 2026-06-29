@@ -9,7 +9,7 @@ def index():
 
 @app.route("/api/strategy", methods=["POST"])
 def strategy():
-    key = os.environ.get("GEMINI_API_KEY", "")
+    key = os.environ.get("GROQ_API_KEY", "")
     if not key:
         return jsonify({"error": "No API key found"}), 500
 
@@ -27,19 +27,24 @@ def strategy():
     )
 
     payload = json.dumps({
-        "contents": [{"parts": [{"text": prompt}]}]
+        "model": "llama-3.1-8b-instant",
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": 800
     }).encode()
 
     req = urllib.request.Request(
-        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key={key}",
+        "https://api.groq.com/openai/v1/chat/completions",
         data=payload,
-        headers={"Content-Type": "application/json"}
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {key}"
+        }
     )
 
     try:
         with urllib.request.urlopen(req, timeout=25) as r:
             result = json.loads(r.read())
-            text = result["candidates"][0]["content"]["parts"][0]["text"]
+            text = result["choices"][0]["message"]["content"]
             return jsonify({"briefing": text})
     except urllib.error.HTTPError as e:
         err = e.read().decode()
