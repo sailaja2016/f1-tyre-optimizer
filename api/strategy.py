@@ -38,7 +38,7 @@ def handler(req=None):
     )
 
     try:
-        with urllib.request.urlopen(req2, timeout=25) as r:
+        with urllib.request.urlopen(req, timeout=25) as r:
             result = json.loads(r.read())
             text = result["choices"][0]["message"]["content"]
             return Response(json.dumps({"briefing": text}), status=200, mimetype="application/json")
