@@ -7,7 +7,7 @@ def handler(req=None):
     except:
         data = {}
 
-    key = os.environ.get("GEMINI_API_KEY", "")
+    key = os.environ.get("GROQ_API_KEY", "")
     if not key:
         return Response(json.dumps({"error": "no key"}), status=500, mimetype="application/json")
 
@@ -23,19 +23,24 @@ def handler(req=None):
     )
 
     payload = json.dumps({
-        "contents": [{"parts": [{"text": prompt}]}]
+        "model": "llama-3.1-8b-instant",
+        "messages": [{"role": "user", "content": prompt}],
+        "max_tokens": 800
     }).encode()
 
-    req2 = urllib.request.Request(
-        f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key={key}",
+    req = urllib.request.Request(
+        "https://api.groq.com/openai/v1/chat/completions",
         data=payload,
-        headers={"Content-Type": "application/json"}
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {key}"
+        }
     )
 
     try:
         with urllib.request.urlopen(req2, timeout=25) as r:
             result = json.loads(r.read())
-            text = result["candidates"][0]["content"]["parts"][0]["text"]
+            text = result["choices"][0]["message"]["content"]
             return Response(json.dumps({"briefing": text}), status=200, mimetype="application/json")
     except urllib.error.HTTPError as e:
         err = e.read().decode()
