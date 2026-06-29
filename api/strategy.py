@@ -33,7 +33,8 @@ def handler(req=None):
         data=payload,
         headers={
             "Content-Type": "application/json",
-            "Authorization": f"Bearer {key}"
+            "Authorization": f"Bearer {key}",
+            "User-Agent": "Mozilla/5.0 (compatible; F1TyreOptimizer/1.0)"
         }
     )
 
