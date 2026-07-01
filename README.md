@@ -27,11 +27,17 @@ Formula 1 race strategy is one of the most complex and high-stakes decision-maki
 
 ---
 
+## 🌐 Live Demo:
+👉 https://f1-tyre-optimizer-ezwstvfnn-k-sailaja-s-projects.vercel.app/
+
+---
+
 ## 🖥️ Screenshots:
 <img width="1920" height="828" alt="  (1)" src="https://github.com/user-attachments/assets/7c7766ae-1176-403d-b1cd-eb2d4309657e" />
 <img width="1920" height="830" alt="  (2)" src="https://github.com/user-attachments/assets/9b3499a0-01b7-4f66-8b78-3ea0b607c785" />
 <img width="1920" height="824" alt="  (3)" src="https://github.com/user-attachments/assets/33c7f77a-313c-4852-b7e0-37a091b39a04" />
 <img width="1568" height="580" alt="WhatsApp Image 2026-06-11 at 5 52 55 PM" src="https://github.com/user-attachments/assets/2cf27167-0aff-43b3-a432-216d2696b9b6" />
+<img width="959" height="408" alt="image" src="https://github.com/user-attachments/assets/0160f0b6-fa3c-4e45-a2d8-844619be7651" />
 
 ---
 
